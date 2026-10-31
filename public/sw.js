@@ -12,7 +12,7 @@ function events(o,M){var ev=[],m=function(x){return"R "+Number(x||0).toLocaleStr
   else{(o.issues||[]).filter(function(x){return x.status!=="resolved"}).forEach(function(x){ev.push(["s:"+x.id,"New issue reported",x.text||x.title||x.note||"Issue"])});
     (o.jobReports||[]).forEach(function(r){if(r.injury)ev.push(["j:"+r.id,"INJURY reported",(r.worker||"")+" - "+(r.injuryNote||"")]);else if(r.brokenTool)ev.push(["j:"+r.id,"Broken tool",r.brokenTool])});
     (o.urgentParts||[]).forEach(function(x){ev.push(["p:"+x.id,"Urgent part request",(x.desc||x.part||x.title||"Urgent part")])})}
-  return ev}
+  (o.rewardNotices||[]).filter(function(x){return x.status==="open"}).forEach(function(x){ev.push(["rw:"+x.id,"Reward to collect: "+x.name,x.name+" ("+String(x.team).toUpperCase()+") must come and collect their reward"])});if(M==="ceo")(o.companyAwards||[]).filter(function(x){return !x.seen}).forEach(function(x){ev.push(["aw:"+x.key,"Best company of the "+x.kind,x.text])});return ev}
 function check(){return load("mode").then(function(M){if(!M)return;
   return fetch(KEY,{cache:"no-store"}).then(function(r){return r.json()}).then(function(d){var o=typeof d.value==="string"?JSON.parse(d.value):d.value;if(!o)return;
     var ev=events(o,M),ids=ev.map(function(e){return e[0]});
