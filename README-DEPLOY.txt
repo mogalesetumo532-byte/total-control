@@ -1,3 +1,13 @@
+TOOL QR CODES (FIX FOR "SITE IS PRIVATE")
+  What was wrong: a tool sticker used the address the officer had open when the QR was made, and it opened the PIN-locked officer page. If that address was a private or preview Netlify address, people scanning from outside got "site is private".
+  What is new: every tool QR now opens /scan.html, an open page with no PIN and no login. The phone scans the sticker and sees TOOL CHECKED OUT with the tool name, code, company and time. The tool is ticked on today's checklist and appears in the Operations Officer > Inventory tab ("Tools checked out today" list and a CHECKED OUT time next to the tool).
+  DO THIS ONCE:
+    1. Netlify > your site > Site configuration > Access & security > Visitor access: make sure NO password or "private" setting is on. Use the main site address, not a deploy-preview or branch address (those contain "--").
+    2. Open public/config.js and put your public address in TCS_PUBLIC_URL, e.g. window.TCS_PUBLIC_URL = "https://your-site.netlify.app";
+    3. Deploy, then open Operations Officer > Inventory > QR / Download and print NEW stickers. Old stickers still carry the old address and will keep failing if that address is private.
+  The QR window warns in red if the address looks private or temporary.
+  Special tools and parts QR codes now also use the public address (special tools open the full special-tool screen; parts still ask Top Management for the code).
+
 
 
 WHAT'S NEW IN THIS VERSION
